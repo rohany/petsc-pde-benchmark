@@ -9,11 +9,13 @@ from petsc4py import PETSc
 import numpy as np
 import argparse
 
+import os
+
 # Example invocation:
-# mpirun -np 1 --bind-to core python3 examples/pde-petsc.py -ksp_type cg -nx 4000 -ny 4000 -ksp_max_it 100
 parser = argparse.ArgumentParser()
 parser.add_argument("-nx", type=int, default=101)
 parser.add_argument("-ny", type=int, default=101)
+parser.add_argument("-o", "--output", type=str, default=".")
 args, _ = parser.parse_known_args()
 
 nx = args.nx              # number of points in the x direction
@@ -128,16 +130,19 @@ def p_exact_2d(X, Y):
     return sol
 
 
-A = d2_mat_dirichlet_2d(nx, ny, dx, dy)
-n = A.shape[0]
-A_p = PETSc.Mat().createAIJ(size=(n, n), csr=(A.indptr, A.indices, A.data))
-viewer = PETSc.Viewer().createBinary("A.dat", "w")
-A_p.view(viewer)
-bflat_p = PETSc.Vec().createSeq(n)
-bflat_p.setValues(range(n), bflat)
-viewer = PETSc.Viewer().createBinary("bflat.dat", "w")
-bflat_p.view(viewer)
-x = PETSc.Vec().createSeq(n)
-x.set(0)
-viewer = PETSc.Viewer().createBinary("x.dat", "w")
-x.view(viewer)
+# Only generate the data if it doesn't already exist.
+apath = os.path.abspath(os.path.join(args.output, "A.dat"))
+if not os.path.exists(apath):
+    A = d2_mat_dirichlet_2d(nx, ny, dx, dy)
+    n = A.shape[0]
+    A_p = PETSc.Mat().createAIJ(size=(n, n), csr=(A.indptr, A.indices, A.data))
+    viewer = PETSc.Viewer().createBinary(apath, "w")
+    A_p.view(viewer)
+    bflat_p = PETSc.Vec().createSeq(n)
+    bflat_p.setValues(range(n), bflat)
+    viewer = PETSc.Viewer().createBinary(os.path.abspath(os.path.join(args.output, "bflat.dat")), "w")
+    bflat_p.view(viewer)
+    x = PETSc.Vec().createSeq(n)
+    x.set(0)
+    viewer = PETSc.Viewer().createBinary(os.path.abspath(os.path.join(args.output, "x.dat")), "w")
+    x.view(viewer)

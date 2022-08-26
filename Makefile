@@ -11,4 +11,4 @@ all: main
 
 main: main.cpp
 	-$(PETSC_CXXCOMPILE_SINGLE) -c main.cpp -o main.o
-	-${CLINKER} main.o ${PETSC_KSP_LIB} -lmpi_cxx -o main
+	-${CLINKER} main.o ${PETSC_KSP_LIB} -o main
