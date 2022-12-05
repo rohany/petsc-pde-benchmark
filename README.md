@@ -7,14 +7,14 @@ that solves a simple partial differential equation.
 
 First, create a fresh conda environment with `scipy`, `cython` and `numpy`. Install PETSc using
 ```
-./configure --with-cuda=1 --prefix=petsc-install --with-cuda-dir=/usr/local/cuda-11.0/ CXXFLAGS="-O3" COPTFLAGS="-O3" CXXOPTFLAGS="-O3" --with-debugging=0 --with-64-bit-indices
+./configure --with-cuda=1 --prefix=petsc-install --with-cuda-dir=<PATH/TO/CUDA/> CXXFLAGS="-O3" COPTFLAGS="-O3" CXXOPTFLAGS="-O3" FOPTFLAGS="-O3" --download-fblaslapack=1 --with-debugging=0 --with-64-bit-indices
 make
 make install
 ```
 
 To compile the benchmark code, run
 ```
-OMPI_CC=gcc-8 OMPI_CXX=g++-8 PETSC_DIR=<petsc/install/dir/ make main
+OMPI_CC=gcc-8 OMPI_CXX=g++-8 PETSC_DIR=<petsc/install/dir/> make main
 ```
 
 ## Run instructions
