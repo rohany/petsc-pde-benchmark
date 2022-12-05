@@ -28,3 +28,8 @@ To run on GPUs, use:
 ```
 mpirun -np 1 --bind-to core ./main -ksp_type cg -ksp_max_it 100 -pc_type none -ksp_atol 1e-10 -ksp_rtol 1e-10 -vec_type cuda -mat_type aijcusparse -use_gpu_aware_mpi 0
 ```
+
+On the Summit supercomputer, use the following command for GPUs:
+```
+jsrun -n 1 -g 1 -c 1 -b rs --smpiargs="-gpu" ./main -ksp_type cg -ksp_max_it 100 -pc_type none -ksp_atol 1e-10 -ksp_rtol 1e-10 -vec_type cuda -mat_type aijcusparse
+```
