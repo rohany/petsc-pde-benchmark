@@ -38,8 +38,10 @@ int main(int argc, char** argv) {
   MatSetSizes(A, PETSC_DECIDE, PETSC_DECIDE, (nx - 2) * (nx - 2), (ny - 2) * (ny - 2));
   MatSetType(A, MATMPIAIJ);
   MatSetFromOptions(A);
-  MatMPIAIJSetPreallocation(A, 5, NULL, 0, NULL);
-  MatSetOption(A, MAT_NEW_NONZERO_ALLOCATION_ERR, PETSC_FALSE);
+  // I don't understand how preallocation works. So, I just overallocate
+  // both of these and my program stops hanging!
+  MatSeqAIJSetPreallocation(A, 10, NULL);
+  MatMPIAIJSetPreallocation(A, 10, NULL, 10, NULL);
   MatGetOwnershipRange(A, &rowStart, &rowEnd);
   for (auto r = rowStart; r < rowEnd; r++) {
     // We need to set 5 points on the stencil:
