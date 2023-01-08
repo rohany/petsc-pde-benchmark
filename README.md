@@ -3,6 +3,8 @@
 This repository contains source code and data generators for a simple PETSc benchmark
 that solves a simple partial differential equation.
 
+It also contains a small SpMV and SpMM microbenchmark, runnable in a similar manner as the PDE benchmark.
+
 ## Build instructions for PETSc
 
 First, create a fresh conda environment with `scipy`, `cython` and `numpy`. Install PETSc using
