@@ -48,10 +48,10 @@ int main(int argc, char** argv) {
     // a * p_{i-1},j + c * p_i,j + a * p_{i+1},j + g * p_i,{j-1} + g * p_i, j+1.
     auto i = (r % (ny - 2)) + 1;
     auto j = (r / (ny - 2)) + 1;
-    if (j - 1 > 0) {
+    if (j - 1 >= 0) {
       MatSetValue(A, r, r - (ny - 2), g, INSERT_VALUES);
     }
-    if (i - 1 > 0) {
+    if (i - 1 >= 0) {
       MatSetValue(A, r, r - 1, a, INSERT_VALUES);
     }
     MatSetValue(A, r, r, c, INSERT_VALUES);
